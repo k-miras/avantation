@@ -1,6 +1,6 @@
 const widdershins: any = require('widdershins');
 const shins: any = require('shins');
-import * as OAS from '../interfaces/oas';
+import * as OAS from '../interfaces/OpenApi';
 import * as fs from 'fs';
 
 interface options {

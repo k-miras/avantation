@@ -65,4 +65,4 @@ typings/
 /dist
 oclif_github_release
 docs.txt
-
+test/
