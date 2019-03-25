@@ -1,4 +1,4 @@
-import { colors } from '../apis/logger';
+import { colors } from '../loggers/colors';
 export declare type AlphabetUppercase =
     | 'A'
     | 'B'
@@ -54,7 +54,7 @@ export declare type AlphabetLowercase =
     | 'y'
     | 'z';
 
-interface flages {
+interface flags {
     short?: AlphabetLowercase | AlphabetUppercase;
     long?: string;
     default?: string;
@@ -69,7 +69,7 @@ interface description {
 
 export const SHORT_DESCRIPTION = 'Build OpenAPI specification from HAR.';
 
-export const HAR: flages = {
+export const HAR: flags = {
     long: 'har',
     required: true,
     description: {
@@ -79,7 +79,7 @@ export const HAR: flages = {
         To generate the HAR file for new projects use Insomania REST Clint Desktop application.`
     }
 };
-export const HOST: flages = {
+export const HOST: flags = {
     short: 'h',
     long: 'host',
     required: false,
@@ -89,7 +89,7 @@ export const HOST: flages = {
             'Host name is mandatore field to build openapi sepcification by default it will be first request url in HAR.'
     }
 };
-export const BASE_PATH: flages = {
+export const BASE_PATH: flags = {
     short: 'b',
     long: 'base-path',
     required: true,
@@ -99,7 +99,7 @@ export const BASE_PATH: flages = {
     },
     default: ''
 };
-export const PATH_REGEX: flages = {
+export const PATH_REGEX: flags = {
     short: 'r',
     long: 'path-param-regex',
     required: false,
@@ -113,7 +113,7 @@ export const PATH_REGEX: flages = {
     },
     default: `${getDefault('[0-9]|[-$@!~%^*()_+]')}`
 };
-export const SECURITY_HEADERS: flages = {
+export const SECURITY_HEADERS: flags = {
     short: 's',
     long: 'security-headers',
     required: false,
@@ -138,7 +138,7 @@ export const SECURITY_HEADERS: flages = {
     },
     default: `${getDefault('{}')}`
 };
-export const TEMPLATE: flages = {
+export const TEMPLATE: flags = {
     short: 't',
     long: 'template',
     required: false,
@@ -148,7 +148,7 @@ export const TEMPLATE: flages = {
     },
     default: `${getDefault('Avantation Template')}`
 };
-export const DIABLE_TAG: flages = {
+export const DIABLE_TAG: flags = {
     long: 'disable-tag',
     required: false,
     description: {
@@ -157,7 +157,7 @@ export const DIABLE_TAG: flages = {
     default: `${getDefault('false')}`
 };
 
-export const STATIC_UI_LOGO: flages = {
+export const STATIC_UI_LOGO: flags = {
     long: 'static-ui-logo',
     required: false,
     description: {
@@ -165,7 +165,7 @@ export const STATIC_UI_LOGO: flages = {
     }
 };
 
-export const BUILD_STATIC_UI: flages = {
+export const BUILD_STATIC_UI: flags = {
     long: 'build-static-ui',
     required: false,
     description: {
@@ -174,7 +174,7 @@ export const BUILD_STATIC_UI: flages = {
     default: `${getDefault('false')}`
 };
 
-export const HTTP_SNIPPET: flages = {
+export const HTTP_SNIPPET: flags = {
     long: 'http-snippet',
     required: false,
     description: {
@@ -183,7 +183,7 @@ export const HTTP_SNIPPET: flages = {
     default: `${getDefault('false')}`
 };
 
-export const _JSON: flages = {
+export const _JSON: flags = {
     short: 'j',
     long: 'json',
     description: {
@@ -192,7 +192,7 @@ export const _JSON: flages = {
     required: false,
     default: `${getDefault('false')}`
 };
-export const PIPE: flages = {
+export const PIPE: flags = {
     short: 'p',
     long: 'pipe',
     description: {
@@ -202,7 +202,7 @@ export const PIPE: flages = {
     default: `${getDefault('false')}`
 };
 
-export const OUT: flages = {
+export const OUT: flags = {
     short: 'o',
     long: 'out',
     description: {
@@ -233,7 +233,7 @@ ${getExample()}
 ${getTitle('Options')}
 `;
 
-export let manual: flages[] = [
+export let manual: flags[] = [
     HAR,
     HOST,
     BASE_PATH,

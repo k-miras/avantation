@@ -1,6 +1,6 @@
-import * as Avantation from './avantation';
+import * as Avantation from '.';
 
-import * as OASEnum from '../enums/oas';
+import * as OASEnum from '../enums/OpenApi';
 
 export interface openapi {
     version: OASEnum.openapi;

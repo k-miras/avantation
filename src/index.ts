@@ -1,13 +1,13 @@
 import Command, { flags } from '@oclif/command';
-import { AvantationAPI } from './apis/avantation';
-import defaultTemplate from './templates/avantation';
-import { colors as Color } from './apis/logger';
+import { AvantationAPI } from './apis/AvantationAPI';
+import defaultTemplate from './templates/openApi3';
+import { OclifLogger } from "./loggers/OclifLogger";
 import * as fs from 'fs';
 import * as path from 'path';
-import * as HAR from './interfaces/har';
-import * as AvantationInterface from './interfaces/avantation';
-import * as OAS from './interfaces/oas';
-import * as Docs from './docs/index';
+import * as HAR from './interfaces/Har';
+import * as AvantationInterface from './interfaces';
+import * as OAS from './interfaces/OpenApi';
+import * as Docs from './cliDocs/index';
 var URL: any = require('url-parse');
 
 /*let manual = process.argv.slice(2).some((cmd) => {
@@ -150,7 +150,7 @@ class Avantation extends Command {
             'http-snippet': flags['http-snippet']
         };
 
-        new AvantationAPI(input, this);
+        new AvantationAPI(input, new OclifLogger(this));
     }
 }
 
