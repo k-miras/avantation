@@ -159,12 +159,13 @@ export class AvantationAPI extends Avantation.AbstractConfigurable {
 
     let pathArr = basePathArr[1].split("/");
     let pathTag: string | undefined = undefined;
-    let that = this;
+    
     let dynamicPathParam: OAS.ParameterObject[] = [];
     let dynamicPathProcessId: number = 0;
-    pathArr.forEach(function(path: string, index: number) {
+    for (let index = 0; index < pathArr.length; index++) {
+      const path = pathArr[index];
       if (!pathTag) pathTag = path;
-      let isDynamicPath: boolean = that.pathRegex.test(path);
+      let isDynamicPath: boolean = this.pathRegex.test(path);
       if (isDynamicPath) {
         let name =
           "id" + (dynamicPathProcessId > 0 ? dynamicPathProcessId : "");
@@ -180,7 +181,8 @@ export class AvantationAPI extends Avantation.AbstractConfigurable {
         dynamicPathParam.push(gPath);
         pathArr[index] = "{" + name + "}";
       }
-    });
+      
+    }
     return {
       params: dynamicPathParam,
       value: pathArr.join("/"),
@@ -335,14 +337,15 @@ export class AvantationAPI extends Avantation.AbstractConfigurable {
 
   buildSecurity(headers: HAR.NameValue[]): OAS.SecurityRequirementObject {
     let security: OAS.SecurityRequirementObject = {};
-    let that = this;
-    headers.forEach(function(header: HAR.NameValue) {
+    
+    for (const iterator of headers) {
+      const header: HAR.NameValue = iterator;
       if (header.name.trim().toLocaleLowerCase() === "authorization")
         security["JWT"] = [];
-
-      if (that.securityHeaders[header.name.trim()])
+  
+      if (this.securityHeaders[header.name.trim()])
         security[header.name.trim()] = [];
-    });
+    }
     return security;
   }
 
@@ -402,9 +405,11 @@ export class AvantationAPI extends Avantation.AbstractConfigurable {
         });
       }
 
-    let that = this;
-    this.template.servers.forEach(function(server: OAS.ServerObject) {
-      server.url = server.url.replace("{host}", that.host);
+    
+
+    for (const iterator of this.template.servers) {
+      const server: OAS.ServerObject = iterator;
+      server.url = server.url.replace("{host}", this.host);
       if (
         server.variables &&
         server.variables.basePath &&
@@ -412,10 +417,10 @@ export class AvantationAPI extends Avantation.AbstractConfigurable {
       ) {
         server.variables.basePath.default = server.variables.basePath.default.replace(
           "{basePath}",
-          that.basePath
+          this.basePath
         );
       }
-    });
+    }
 
     if (this.template.components && this.template.components.securitySchemes) {
       for (let security in this.securityHeaders) {

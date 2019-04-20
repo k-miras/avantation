@@ -56,7 +56,8 @@
   },
   "repository": "anbuksv/avantation",
   "scripts": {
-    "prepack": "rm -rf lib && tsc -b "
+    "prepack": "rm -rf lib && tsc -b ",
+    "build":"rm -rf lib && tsc -b "
   },
   "types": "lib/index.d.ts"
 }

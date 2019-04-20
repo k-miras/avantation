@@ -32,15 +32,17 @@ export default function(_options: options) {
         }
     ];
 
-    Object.keys(api.paths).forEach((path: any) => {
+    for (const path of Object.keys(api.paths)) {
         if (api.paths[path].get !== undefined) delete api.paths[path].get!['x-code-samples'];
-
+    
         if (api.paths[path].post !== undefined) delete api.paths[path].post!['x-code-samples'];
-
+    
         if (api.paths[path].put !== undefined) delete api.paths[path].put!['x-code-samples'];
-
+    
         if (api.paths[path].delete !== undefined) delete api.paths[path].delete!['x-code-samples'];
-    });
+        
+    }
+
 
     let options: any = {
         codeSamples: true,
@@ -55,11 +57,12 @@ export default function(_options: options) {
         sample: true
     };
 
-    Object.getOwnPropertyNames(languageMap).forEach(lang => {
+    for (const lang of Object.getOwnPropertyNames(languageMap)) {
         let obj: any = {};
         obj[lang] = languageMap[lang];
         options.language_tabs.push(obj);
-    });
+        
+    }
 
     // Shin options
     let shinOptions: any = {
