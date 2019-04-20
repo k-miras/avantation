@@ -53,15 +53,15 @@ export class AvantationAPI extends Avantation.AbstractConfigurable {
       entry.response.content.mimeType === "application/json; charset=utf-8"
         ? "application/json"
         : entry.response.content.mimeType;
-    if (!this.mimeTypes.includes(entry.response.content.mimeType)) {
-      // console.log(entry.response.content);
-      this.logger.warn(
-        `Skiping invalid mimeType:${entry.response.content.mimeType} @${
-          url.href
-        } in response.`
-      );
-      return; //simply ingnore invalid url match
-    }
+    // if (!this.mimeTypes.includes(entry.response.content.mimeType)) {
+    //   // console.log(entry.response.content);
+    //   this.logger.warn(
+    //     `Skiping invalid mimeType:${entry.response.content.mimeType} @${
+    //       url.href
+    //     } in response.`
+    //   );
+    //   return; //simply ingnore invalid url match
+    // }
 
     // console.log(`query:${url.query} and path:${url.pathname}`);
     let path: Avantation.Path | undefined = this.buildPathDetails(url);
@@ -84,11 +84,19 @@ export class AvantationAPI extends Avantation.AbstractConfigurable {
       entry.comment,
       path.tag
     );
+    let allParams: OAS.ParameterObject[] = [...path.params, ...hardCodedQuery, ...queryParams];
+    let parameters = [];
+    let uniq = new Set(allParams.map(o=>o.name));
+    for (const item of allParams) {
+      if(uniq.delete(item.name)){
+        parameters.push(item);
+      }
+    }
     let operationItem: OAS.OperationObject = {
       security: Object.keys(security).length > 0 ? [security] : [],
       tags: [pathItemInfo.tag],
       summary: pathItemInfo.comment || pathItemInfo.tag,
-      parameters: [...path.params, ...hardCodedQuery, ...queryParams],
+      parameters: parameters,
       requestBody: requestBody,
       responses: response
     };
@@ -286,6 +294,10 @@ export class AvantationAPI extends Avantation.AbstractConfigurable {
         };
         return query.name;
       });
+
+      if (required instanceof Array){
+        required = [...new Set(required)]
+      }
       return {
         type: "object",
         properties: properties,
@@ -311,6 +323,12 @@ export class AvantationAPI extends Avantation.AbstractConfigurable {
 
     if (!res.content.text || !res.content.mimeType.includes("application/json"))
       return response;
+
+    try {
+      JSON.parse(res.content.text);
+    } catch (error) {
+      return response;
+    }
 
     if (res.content.encoding && res.content.encoding == "base64") {
       res.content.text = Buffer.from(res.content.text, "base64").toString();
